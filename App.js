@@ -5,19 +5,17 @@ import {
   StyleSheet,
 } from 'react-native'
 import Navigation from './src/common/navigation/Navigation'
-
-// import BottomTabNavigation from './src/common/navigation/BottomTabNavigation'
+import { Provider } from 'react-native'
+import store from './src/store/index'
 type Props = {};
 export default class App extends Component<Props> {
     constructor(props){
       super(props)
-      console.log(Navigation)
     }
     render() {
-        // <Navigation></Navigation>
-        // <BottomTabNavigation></BottomTabNavigation>
-        
-      return  <Navigation></Navigation>
+      return   <Provider store={store}>
+                    <Navigation></Navigation>
+                </Provider>
         
     }
 }

@@ -5,7 +5,7 @@ import theme from './theme'
 // import favorite from './favorite'
 // import language from './language'
 // import search from './search'
-import {rootCom, RootNavigator} from '../navigator/AppNavigators';
+import {rootCom, RootNavigator} from '../../common/navigation/Navigation';
 
 //1.指定默认state
 const navState = RootNavigator.router.getStateForAction(RootNavigator.router.getActionForPathAndParams(rootCom));
@@ -26,11 +26,11 @@ const navReducer = (state = navState, action) => {
 const index = combineReducers({
     nav: navReducer,
     theme: theme,
-    popular: popular,
-    trending: trending,
-    favorite: favorite,
-    language: language,
-    search: search,
+    // popular: popular,
+    // trending: trending,
+    // favorite: favorite,
+    // language: language,
+    // search: search,
 });
 
 export default index;
