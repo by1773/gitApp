@@ -17,6 +17,8 @@ type Props = {};
 export default class WelcomePage extends Component<Props> {
     constructor(props){
       super(props)
+      console.disableYellowBox = true //去掉警告提示
+      console.ignoredYellowBox = true //去掉警告提示
       this.state = {
         // text:'',
         // alertMsg:'邮箱'
@@ -40,14 +42,14 @@ export default class WelcomePage extends Component<Props> {
             <TextInput
               style ={styles.inputs}
               onChangeText={(v) => {}}
-              value='邮箱'
+              placeholder='邮箱'
             />
             </View>
             <View style={styles.formItem}>
             <TextInput
               style ={styles.inputs}
               onChangeText={(v) => {}}
-              value='密码'
+              placeholder='密码'
             />
             </View>
             <View style={styles.formItem}>
@@ -77,6 +79,7 @@ const styles = StyleSheet.create({
   inputs: {
     height: 40, 
     width:200,
+    paddingLeft: 5,
     borderColor: 'gray', 
     borderWidth: 1,
     borderRadius:20

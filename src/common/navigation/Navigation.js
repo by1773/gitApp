@@ -1,13 +1,13 @@
 import {createStackNavigator, createSwitchNavigator, createAppContainer} from "react-navigation";
 import React,{Component} from 'react'
-import { connect} from 'react-native'
-import {View,Text} from 'react-native'
 // 引入页面
 import HomePage from '../../pages/HomePage';
-import PersonalPage from '../../pages/PersonalPage';
+import PopularDetailPage from '../../pages/PopularPage/PopularDetailPage';
 import TrendPage from '../../pages/TrendPage';
 import WelcomePage from '../../pages/WelcomePage';
-
+// store 方法
+import {createReactNavigationReduxMiddleware, reduxifyNavigator} from 'react-navigation-redux-helpers';
+import {connect} from 'react-redux';
  export const rootCom = 'Init';//设置根路由
 
  const InitNavigator = createStackNavigator({
@@ -18,6 +18,9 @@ import WelcomePage from '../../pages/WelcomePage';
  const MainNavigator = createStackNavigator({
     HomePage: {
         screen:HomePage
+    },
+    PopularDetailPage:{
+        screen:PopularDetailPage
     }
 },
 {

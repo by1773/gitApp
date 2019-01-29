@@ -1,41 +1,177 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
+import {connect} from 'react-redux'
+import {onThemeChange} from '../store/actions/theme/index'
+import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import NavigationUtil from "../common/navigation/NavigationUtil";
 import NavigationBar from '../common/navigation/NavigationBar';
+import Feather from 'react-native-vector-icons/Feather'
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import {MORE_MENU} from "../common/MORE_MENU";
+import GlobalStyles from "../extend/Res/styles/GlobalStyles";
+import ViewUtil from "../utils/ViewUtil";
+import {FLAG_LANGUAGE} from "../extend/Dao/LanguageDao";
+import actions from "../store/actions/index";
 import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
+  Image
 } from 'react-native'
 type Props = {};
+class PersonalPage extends Component<Props> {
+    onClick(menu) {
+        const {theme} = this.props;
+        let RouteName, params = {theme};
+        switch (menu) {
+            case MORE_MENU.Tutorial:
+                RouteName = 'WebViewPage';
+                params.title = '教程';
+                params.url = 'https://coding.m.imooc.com/classindex.html?cid=89';
+                break;
+            case MORE_MENU.About:
+                RouteName = 'AboutPage';
+                break;
+            case MORE_MENU.Custom_Theme:
+                const {onShowCustomThemeView} = this.props;
+                onShowCustomThemeView(true);
+                break;
+            case MORE_MENU.CodePush:
+                RouteName = 'CodePushPage';
+                break;
+            case MORE_MENU.Sort_Key:
+                RouteName = 'SortKeyPage';
+                params.flag = FLAG_LANGUAGE.flag_key;
+                break;
+            case MORE_MENU.Sort_Language:
+                RouteName = 'SortKeyPage';
+                params.flag = FLAG_LANGUAGE.flag_language;
+                break;
+            case MORE_MENU.Custom_Key:
+            case MORE_MENU.Custom_Language:
+            case MORE_MENU.Remove_Key:
+                RouteName = 'CustomKeyPage';
+                RouteName = 'CustomKeyPage';
+                params.isRemoveKey = menu === MORE_MENU.Remove_Key;
+                params.flag = menu !== MORE_MENU.Custom_Language ? FLAG_LANGUAGE.flag_key : FLAG_LANGUAGE.flag_language;
+                break;
+            case MORE_MENU.About_Author:
+                RouteName = 'AboutMePage';
+                break;
+        }
+        if (RouteName) {
+            NavigationUtil.goPage(params, RouteName);
+        }
+    }
+    getItem(menu) {
+        const {theme} = this.props;
+        return ViewUtil.getMenuItem(() => this.onClick(menu), menu, theme.themeColor);
+    }
+    render() {
+        const {theme} = this.props;
+        let statusBar = {
+            backgroundColor: theme.themeColor,
+            barStyle: 'light-content',
+        };
+        let navigationBar =
+            <NavigationBar
+                title={'我的'}
+                statusBar={statusBar}
+                style={theme.styles.navBar}
+            />;
+        return (
+            <View style={GlobalStyles.root_container}>
+                {navigationBar}
+                <ScrollView>
+                    <TouchableOpacity
+                        style={styles.item}
+                        onPress={() => this.onClick(MORE_MENU.About)}
+                    >
+                        <View style={styles.about_left}>
+                           <Image
+                            source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+                           >
 
-export default class PersonalPage extends Component<Props> {
+                           </Image>
+                            
+                            <Text>Walker</Text>
+                        </View>
+                        <Ionicons
+                            name={'ios-arrow-forward'}
+                            size={16}
+                            style={{
+                                marginRight: 10,
+                                alignSelf: 'center',
+                                color: theme.themeColor,
+                            }}/>
+                    </TouchableOpacity>
+                    <View style={GlobalStyles.line}/>
+                    {this.getItem(MORE_MENU.Tutorial)}
+                    {/*趋势管理*/}
+                    <Text style={styles.groupTitle}>趋势管理</Text>
+                    {/*自定义语言*/}
+                    {this.getItem(MORE_MENU.Custom_Language)}
+                    {/*语言排序*/}
+                    <View style={GlobalStyles.line}/>
+                    {this.getItem(MORE_MENU.Sort_Language)}
 
-  constructor(props) {
-    super(props);
+                    {/*最热管理*/}
+                    <Text style={styles.groupTitle}>最热管理</Text>
+                    {/*自定义标签*/}
+                    {this.getItem(MORE_MENU.Custom_Key)}
+                    {/*标签排序*/}
+                    <View style={GlobalStyles.line}/>
+                    {this.getItem(MORE_MENU.Sort_Key)}
+                    {/*标签移除*/}
+                    <View style={GlobalStyles.line}/>
+                    {this.getItem(MORE_MENU.Remove_Key)}
 
-  }
-
-  render(){
-    let statusBar = {
-      backgroundColor: '#000',
-      barStyle: 'light-content',
-    };
-    let navigationBar =
-      <NavigationBar
-          title={'我的'}
-          statusBar={statusBar}
-          style ={{marginTop:30}}
-      />;
-    return  <View style={styles.container}>
-             {navigationBar}
+                    {/*设置*/}
+                    <Text style={styles.groupTitle}>设置</Text>
+                    {/*自定义主题*/}
+                    {this.getItem(MORE_MENU.Custom_Theme)}
+                    {/*关于作者*/}
+                    <View style={GlobalStyles.line}/>
+                    {this.getItem(MORE_MENU.About_Author)}
+                    <View style={GlobalStyles.line}/>
+                    {/*反馈*/}
+                    {this.getItem(MORE_MENU.Feedback)}
+                    <View style={GlobalStyles.line}/>
+                    {this.getItem(MORE_MENU.CodePush)}
+                </ScrollView>
             </View>
+        );
     }
 }
 
+const mapStateToProps = state => ({
+    theme: state.theme.theme,
+});
+
+const mapDispatchToProps = dispatch => ({
+    onShowCustomThemeView: (show) => dispatch(actions.onShowCustomThemeView(show)),
+});
+
+//注意：connect只是个function，并不应定非要放在export后面
+export default connect(mapStateToProps, mapDispatchToProps)(PersonalPage);
 const styles = StyleSheet.create({
-  container: {
-    // flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-  }
-})
+    container: {
+        flex: 1,
+        marginTop: 30
+    },
+    about_left: {
+        alignItems: 'center',
+        flexDirection: 'row'
+    },
+    item: {
+        backgroundColor: 'white',
+        padding: 10,
+        height: 90,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexDirection: 'row'
+    },
+    groupTitle: {
+        marginLeft: 10,
+        marginTop: 10,
+        marginBottom: 5,
+        fontSize: 12,
+        color: 'gray'
+    }
+});

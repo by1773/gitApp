@@ -14,8 +14,8 @@ import PopularItem from '../components/PopularPage/PopularItem'
 export default class PopularPage extends Component<Props> {
     constructor(props) {
         super(props);
-        console.disableYellowBox = false //去掉警告提示
-        console.ignoredYellowBox = false //去掉警告提示
+        console.disableYellowBox = true //去掉警告提示
+        console.ignoredYellowBox = true //去掉警告提示
     }
     _genTabs() {
         const tabs = {};
@@ -146,12 +146,12 @@ class PopularTabPage extends Component<Props> {
             projectModel={data}
             onSelect={
             (callback) => {
-                // NavigationUtil.goPage({
-                //     theme,
-                //     projectModel: item,
-                //     flag: FLAG_STORAGE.flag_popular,
-                //     callback,
-                // }, 'DetailPage')
+                 NavigationUtil.goPage({
+                    theme,
+                    projectModel: item,
+                     flag: FLAG_STORAGE.flag_popular,
+                     callback,
+                 }, 'PopularDetailPage')
             }
             }
             // onFavorite={(item, isFavorite) => FavoriteUtil.onFavorite(favoriteDao, item, isFavorite, FLAG_STORAGE.flag_popular)}

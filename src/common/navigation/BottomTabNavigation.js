@@ -8,7 +8,8 @@ import FavoritePage from '../../pages/FavoritePage' //我的搜藏页面
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {BottomTabBar} from 'react-navigation-tabs';
+import { BottomTabBar } from 'react-navigation-tabs';
+import { connect } from 'react-redux'
 type Props = {};
 
 const TABS = {
@@ -68,10 +69,12 @@ const TABS = {
     }
 };
 
-export default class BottomTabNavigation extends Component<Props> {
+class BottomTabNavigation extends Component<Props> {
     constructor(props) {
         super(props);
-        // console.disableYellowBox = true;//／／
+        console.disableYellowBox = false;//／／
+        console.log(this.props)
+
     }
 
     _tabNavigator() {
@@ -106,15 +109,21 @@ class TabBarComponent extends React.Component {
     constructor(props) {
         super(props);
         this.theme = {
-            // tintColor: props.activeTintColor,
-            // updateTime: new Date().getTime(),
+             tintColor: props.activeTintColor,
+             updateTime: new Date().getTime(),
         }
     }
 
     render() {
         return <BottomTabBar
             {...this.props}
-            // activeTintColor={this.props.theme.themeColor}
+             activeTintColor={this.props.theme.themeColor}    
         />
     }
 }
+const mapStateToProps = state => ({
+    theme: state.theme.theme,
+});
+
+export default connect(mapStateToProps)(BottomTabNavigation);
+

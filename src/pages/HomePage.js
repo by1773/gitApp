@@ -1,37 +1,74 @@
+
 import React, {Component} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-} from 'react-native'
+import NavigationUtil from "../common/navigation/NavigationUtil";
 import BottomTabNavigation from '../common/navigation/BottomTabNavigation'
+import {NavigationActions} from "react-navigation";
+import {connect} from "react-redux";
+//import BackPressComponent from "../common/BackPressComponent";
+import CustomTheme from './CustomTheme/CustomTheme';
+import actions from "../store/actions/index";
+import SafeAreaViewPlus from "../common/SafeAreaViewPlus";
+
 type Props = {};
-export default class HomePage extends Component<Props> {
+
+class HomePage extends Component<Props> {
+    constructor(props) {
+        super(props);
+       //this.backPress = new BackPressComponent({backPress: this.onBackPress});
+    }
+
+    componentDidMount() {
+        //this.backPress.componentDidMount();
+    }
+
+    componentWillUnmount() {
+       // this.backPress.componentWillUnmount();
+    }
+
+    /**
+     * 处理 Android 中的物理返回键
+     * https://reactnavigation.org/docs/en/redux-integration.html#handling-the-hardware-back-button-in-android
+     * @returns {boolean}
+     */
+    onBackPress = () => {
+        const {dispatch, nav} = this.props;
+        //if (nav.index === 0) {
+        if (nav.routes[1].index === 0) {//如果RootNavigator中的MainNavigator的index为0，则不处理返回事件
+            return false;
+        }
+        dispatch(NavigationActions.back());
+        return true;
+    };
+
+    renderCustomThemeView() {
+        const {customThemeViewVisible, onShowCustomThemeView} = this.props;
+        return (<CustomTheme
+            visible={customThemeViewVisible}
+            {...this.props}
+            onClose={() => onShowCustomThemeView(false)}
+        />)
+    }
+
     render() {
-        // <AppStackNavigator></AppStackNavigator>
-        return  <BottomTabNavigation></BottomTabNavigation>
-        
+        const {theme} = this.props;
+        NavigationUtil.navigation = this.props.navigation;
+        return <SafeAreaViewPlus
+            topColor={theme.themeColor}
+        >
+            <BottomTabNavigation/>
+            {this.renderCustomThemeView()}
+        </SafeAreaViewPlus>;
     }
 }
-const styles = StyleSheet.create({
-  container: {
-      flex: 1,
-      justifyContent:'center',
-      alignItems: 'center',
-  },
-  line: {
-      flex: 1,
-      height: 0.3,
-      backgroundColor: 'darkgray',
-  },
-  hidden: {
-      height: 0
-  },
-  item: {
-      backgroundColor: "#F8F8F8",
-      borderBottomWidth: 1,
-      borderColor: '#eee',
-      height: 50,
-      justifyContent: 'center'
-  },
+
+const mapStateToProps = state => ({
+    nav: state.nav,
+    customThemeViewVisible: state.theme.customThemeViewVisible,
+    theme: state.theme.theme,
 });
+
+const mapDispatchToProps = dispatch => ({
+    onShowCustomThemeView: (show) => dispatch(actions.onShowCustomThemeView(show)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
