@@ -3,8 +3,9 @@ import React,{Component} from 'react'
 // 引入页面
 import HomePage from '../../pages/HomePage';
 import PopularDetailPage from '../../pages/PopularPage/PopularDetailPage';
-import TrendPage from '../../pages/TrendPage';
 import WelcomePage from '../../pages/WelcomePage';
+import SearchPage from '../../pages/SearchPage/SearchPage'
+import CustomKeyPage from '../../pages/PersonalPage/CustomKeyPage'
 // store 方法
 import {createReactNavigationReduxMiddleware, reduxifyNavigator} from 'react-navigation-redux-helpers';
 import {connect} from 'react-redux';
@@ -12,16 +13,37 @@ import {connect} from 'react-redux';
 
  const InitNavigator = createStackNavigator({
     WelcomePage: {
-        screen:WelcomePage
+        screen:WelcomePage,
+        navigationOptions:{
+            header:null,
+        }
     }
 });
  const MainNavigator = createStackNavigator({
     HomePage: {
-        screen:HomePage
+        screen:HomePage,
+        navigationOptions:{
+            header:null,
+        }
     },
     PopularDetailPage:{
-        screen:PopularDetailPage
-    }
+        screen:PopularDetailPage,
+        navigationOptions:{
+            header:null
+        }
+    },
+    SearchPage:{
+        screen:SearchPage,
+        navigationOptions:{
+            header:null,
+        }
+    },
+    CustomKeyPage: {
+        screen: CustomKeyPage,
+        navigationOptions: {
+            header: null,// 可以通过将header设为null 来禁用StackNavigator的Navigation Bar
+        }
+    },
 },
 {
     defaultNavigationOptions: {

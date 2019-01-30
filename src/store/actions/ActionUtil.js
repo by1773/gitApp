@@ -7,8 +7,8 @@
  * @param pageSize
  * @param favoriteDao
  */
-import ProjectModel from "../model/ProjectModel";
-import Utils from "../util/Utils";
+import ProjectModel from "../../model/ProjectModel";
+import Utils from "../../utils/Utils";
 /**
  * 处理数据
  * @param actionType

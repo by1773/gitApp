@@ -16,19 +16,19 @@
     "checked": true
   },
   {
-    "path": "MySQL",
-    "name": "MySQL",
-    "checked": false
+    "path": "人工智能",
+    "name": "人工智能",
+    "checked": true
   },
   {
-    "path": "AngularJS",
-    "name": "AngularJS",
-    "checked": false
+    "path": "Java",
+    "name": "Java",
+    "checked": true
   },
   {
-    "path": "jQuery",
-    "name": "jQuery",
-    "checked": false
+    "path": "Angular",
+    "name": "Angular",
+    "checked": true
   },
   {
     "path": "react",

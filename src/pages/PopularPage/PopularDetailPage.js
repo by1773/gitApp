@@ -17,7 +17,13 @@ import FavoriteDao from "../../extend/Dao/FavoriteDao";
 export default class PopularDetailPage extends Component<Props> {
     constructor(props) {
         super(props);
+        // params
+        // theme
+        // projectModel
+        // flag: FLAG_STORAGE.flag_popular
+        // callback
         this.params = this.props.navigation.state.params;
+        console.log(this.params)
         const {projectModel,flag} = this.params;
         this.favoriteDao = new FavoriteDao(flag);
         this.url = projectModel.item.html_url || TRENDING_URL + projectModel.item.fullName;
@@ -28,15 +34,15 @@ export default class PopularDetailPage extends Component<Props> {
             canGoBack: false,
             isFavorite:projectModel.isFavorite
         };
-        this.backPress = new BackPressComponent({backPress: () => this.onBackPress()});
+        // this.backPress = new BackPressComponent({backPress: () => this.onBackPress()});
     }
 
     componentDidMount() {
-        this.backPress.componentDidMount();
+        // this.backPress.componentDidMount();
     }
 
     componentWillUnmount() {
-        this.backPress.componentWillUnmount();
+        // this.backPress.componentWillUnmount();
     }
 
     onBackPress() {
@@ -99,13 +105,13 @@ export default class PopularDetailPage extends Component<Props> {
             leftButton={ViewUtil.getLeftBackButton(() => this.onBack())}
             titleLayoutStyle={titleLayoutStyle}
             title={this.state.title}
-            style={theme.styles.navBar}
+            // style={theme.styles.navBar}
             rightButton={this.renderRightButton()}
         />;
 
         return (
             <SafeAreaViewPlus
-                topColor={theme.themeColor}
+                // topColor={theme.themeColor}
             >
                 {navigationBar}
                 <WebView
